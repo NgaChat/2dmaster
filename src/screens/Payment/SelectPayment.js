@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, TextInput } from 'react-native';
 import Icon from '@components/Icon';
 import { useNavigation } from '@react-navigation/native';
+// import Clipboard from '@react-native-clipboard/clipboard';
 
 const SelectPaymentScreen = (props) => {
   const navigation = useNavigation();
@@ -17,6 +18,12 @@ const SelectPaymentScreen = (props) => {
   }, [navigation]);
 
   const [amount, setAmount] = useState('');
+
+  // const copyToClipboard = () => {
+  //   Clipboard.setString(text);
+  //   Alert.alert('Copied to Clipboard!', 'The text has been copied.');
+  // };
+  
 
 
   return (
@@ -47,7 +54,9 @@ const SelectPaymentScreen = (props) => {
           maxLength={200}
           onFocus={() => console.log('Focused')}
           onBlur={() => console.log('Blurred')}
+
         />
+        {/* <Button title="Copy to Clipboard" onPress={copyToClipboard} /> */}
 
         <Text style={{ marginBottom: 10 }} >လုပ်ဆောင်မှုအမှတ်စဉ်</Text>
         <TextInput

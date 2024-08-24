@@ -3,10 +3,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import DashboardScreen from '../screens/Dashboard';
 import SettingsScreen from '../screens/Settings';
 import ProfileScreen from '../screens/Profile';
-import PaymentStackNavigator from './PaymentStackNavigator';
+import ThreeDCalendarStackNavigator from './ThreeDCalendarStackNavigator';
+import GiftStackNavigator from './GiftStackNavigator'
 import Icon from '../components/Icon';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-import { TransitionSpecs, CardStyleInterpolators } from '@react-navigation/stack';
+import HomeStackNavigator from './HomeStackNavigator'
+import { HomeHashtag,MoneySend,Gift,Calendar, Calendar2 } from 'iconsax-react-native';
+import CalendarStackNavigator from './CalendarStackNavigator';
 
 
 const Tab = createBottomTabNavigator();
@@ -20,38 +23,50 @@ const MainTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarActiveTintColor: "#f25824",
-        tabBarInactiveTintColor: "white",
+        tabBarActiveTintColor: "blue",
+        tabBarInactiveTintColor: "black",
+        tabBarLabelStyle: { display: 'none' },
         headerStyle: {
-          backgroundColor: '#4CAF50',
+          backgroundColor: '#fffff',
         },
         headerTintColor: '#fff',
         headerTitleAlign: 'center',
         tabBarStyle: {
-          backgroundColor: '#4CAF50',
-          display: getTab(route)
+          backgroundColor: '#F44336',
+          display: getTab(route),
+          height:60
+         
+
         },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
           if (route.name === 'Dashboard') {
-            iconName = focused ? 'android' : 'android';
+            // iconName = focused ? 'home-heart' : 'home-heart';
+            return <HomeHashtag size={focused?40:20} color={focused ? 'white':'grey'} variant={focused?'Bold':'Linear'} />
           } else if (route.name === 'Settings') {
-            iconName = focused ? 'android' : 'android';
-          } else if (route.name === 'Payment') {
-            iconName = focused ? 'payment' : 'payments';
+            // iconName = focused ? 'payments' : 'payments';
+            return <MoneySend size={focused?40:20} color={focused ? 'white':'grey'} variant={focused?'Bold':'Linear'} />
+          } else if (route.name === 'Gift') {
+            return <Gift size={focused?40:20} color={focused ? 'white':'grey'} variant={focused?'Bold':'Linear'} />
           } else if (route.name === 'Profile') {
-            iconName = focused ? 'person' : 'person-outline';
+            return <MoneySend size={focused?40:20} color={focused ? 'white':'grey'} variant={focused?'Bold':'Linear'} />
+          } else if (route.name === 'Calendar') {
+            return <Calendar size={focused?40:20} color={focused ? 'white':'grey'} variant={focused?'Bold':'Linear'} />
+          }else if (route.name === 'ThreeDCal') {
+            return <Calendar2 size={focused?40:20} color={focused ? 'white':'grey'} variant={focused?'Bold':'Linear'} />
           }
 
-          return <Icon name={iconName} size={size} color={color} type="MaterialIcons" />;
+          return <Icon name={iconName} size={30} color={'color'} type="MaterialCommunityIcons" />;
         },
       })}
     >
-      <Tab.Screen name="Dashboard" options={{ headerShown: false }} component={DashboardScreen} />
-      <Tab.Screen name="Payment" options={{ headerShown: false }} component={PaymentStackNavigator} />
-      <Tab.Screen name="Settings" options={{ headerShown: false }} component={SettingsScreen} />
-      <Tab.Screen name="Profile" options={{ headerShown: false }} component={ProfileScreen} />
+      <Tab.Screen name="Dashboard" options={{ headerShown: false }} component={HomeStackNavigator} />
+      <Tab.Screen name="Gift" options={{ headerShown: false }} component={GiftStackNavigator} />
+      <Tab.Screen name="Calendar" options={{ headerShown: false }} component={CalendarStackNavigator} />
+      <Tab.Screen name="ThreeDCal" options={{ headerShown: false }} component={ThreeDCalendarStackNavigator} />
+      {/* <Tab.Screen name="Settings" options={{ headerShown: false }} component={SettingsScreen} />
+      <Tab.Screen name="Profile" options={{ headerShown: false }} component={ProfileScreen} /> */}
     </Tab.Navigator>
   );
 };
