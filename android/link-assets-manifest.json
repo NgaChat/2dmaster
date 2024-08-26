@@ -1,0 +1,25 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Manrope.ttf",
+      "sha1": "1b4df48059f89147cf4f2e29d2d6a22ce1b6e7fe"
+    },
+    {
+      "path": "src/assets/fonts/Matemasie-Regular.ttf",
+      "sha1": "93e6850e547d573281adc597282b7238321213f5"
+    },
+    {
+      "path": "src/assets/fonts/NewAmsterdam.ttf",
+      "sha1": "aa5bd0b8fad20c40385e52641d94f2fd42783d73"
+    },
+    {
+      "path": "src/assets/fonts/NotoSans.ttf",
+      "sha1": "a89ea628b1ae1d370cb3bbf6cfa4841a6352a7da"
+    },
+    {
+      "path": "src/assets/fonts/Typo.ttf",
+      "sha1": "eb48f65d5220b70937500a09f4ffbc8364170e6e"
+    }
+  ]
+}

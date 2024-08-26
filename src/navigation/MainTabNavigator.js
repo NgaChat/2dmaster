@@ -10,6 +10,7 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import HomeStackNavigator from './HomeStackNavigator'
 import { HomeHashtag,MoneySend,Gift,Calendar, Calendar2 } from 'iconsax-react-native';
 import CalendarStackNavigator from './CalendarStackNavigator';
+import AdminStackNavigator from './AdminStackNavigator';
 
 
 const Tab = createBottomTabNavigator();
@@ -56,6 +57,9 @@ const MainTabNavigator = () => {
           }else if (route.name === 'ThreeDCal') {
             return <Calendar2 size={focused?40:20} color={focused ? 'white':'grey'} variant={focused?'Bold':'Linear'} />
           }
+          // else if (route.name === 'Admin') {
+          //   return <Calendar2 size={focused?40:20} color={focused ? 'white':'grey'} variant={focused?'Bold':'Linear'} />
+          // }
 
           return <Icon name={iconName} size={30} color={'color'} type="MaterialCommunityIcons" />;
         },
@@ -65,6 +69,7 @@ const MainTabNavigator = () => {
       <Tab.Screen name="Gift" options={{ headerShown: false }} component={GiftStackNavigator} />
       <Tab.Screen name="Calendar" options={{ headerShown: false }} component={CalendarStackNavigator} />
       <Tab.Screen name="ThreeDCal" options={{ headerShown: false }} component={ThreeDCalendarStackNavigator} />
+      {/* <Tab.Screen name="Admin" options={{ headerShown: false }} component={AdminStackNavigator} /> */}
       {/* <Tab.Screen name="Settings" options={{ headerShown: false }} component={SettingsScreen} />
       <Tab.Screen name="Profile" options={{ headerShown: false }} component={ProfileScreen} /> */}
     </Tab.Navigator>
