@@ -1,12 +1,13 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Text, Dimensions, RefreshControl, ScrollView, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import { fSize, scaleHeight } from '../../services/Scale';
 import { Celo, Gift } from 'iconsax-react-native';
-import { BannerAd, BannerAdSize, TestIds, InterstitialAd ,AdEventType} from 'react-native-google-mobile-ads';
+// import { BannerAd, BannerAdSize, TestIds, InterstitialAd, AdEventType, RewardedAd, RewardedAdEventType } from 'react-native-google-mobile-ads';
+import { loadRewardedAd, showRewardedAd } from '../../services/adService'
+import { BannerAd, BannerAdSize, useRewardedAd, TestIds } from 'react-native-google-mobile-ads'; // Import directly
 
-const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL)
 const { width } = Dimensions.get('window');
 
 const GiftScreen = () => {
@@ -26,20 +27,35 @@ const GiftScreen = () => {
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const bannerRef = useRef(null);
-    const [loaded, setLoaded] = useState(false);
+    // const [loaded, setLoaded] = useState(false);
+    const { isLoaded, isClosed, load, show } = useRewardedAd('ca-app-pub-9279048532768395/8092786709');
+    const [selectData, setSelectData ] = useState(null)
+    // useEffect(() => {
+    //     loadRewardedAd();
+
+    //   }, []);
 
     useEffect(() => {
-        const unsubscribe = interstitial.addAdEventListener(AdEventType.LOADED, () => {
-            console.log(AdEventType)
-          setLoaded(true);
-        });
-    
         // Start loading the interstitial straight away
-        interstitial.load();
-    
-        // Unsubscribe from events on unmount
-        return unsubscribe;
-      }, [])
+        load();
+    }, [load]);
+    useEffect(() => {
+        if (isClosed) {
+            // Action after the ad is closed
+            if (selectData) {
+                navigation.navigate('GiftView', { data: selectData });
+            }
+        }
+    }, [isClosed, navigation]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            if (!isLoaded) {
+                load();
+                console.log('load')
+            }
+        }, [isLoaded])
+    );
 
     useEffect(() => {
         fetchData();
@@ -48,8 +64,9 @@ const GiftScreen = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('https://sheetdb.io/api/v1/faqijm43duage');
-            setData(response.data);
+            const response = await axios.get('https://app.hsattwinthtet.tech/daily');
+            setData(response.data.data);
+            console.log(response.data)
         } catch (error) {
             console.error(error);
             // Optionally, you could show an alert or a message to the user here
@@ -65,19 +82,29 @@ const GiftScreen = () => {
     };
 
     const giftView = (item) => {
-        navigation.navigate('GiftView', { data: item });
+        setSelectData(item)
+        if (isLoaded) {
+            show();
+        } else {
+            // No advert ready to show yet
+            navigation.navigate('GiftView', { data: item });
+        }
+
     };
     const handlePress = () => {
-        interstitial.show();
+
+
         // Add your link to the Telegram channel here
         const telegramUrl = 'https://t.me/twodmaster_app';
         // This will open the link in the user's browser or Telegram app
-        Linking.openURL(telegramUrl);
-      };
+        // Linking.openURL(telegramUrl);
+    };
+
+
 
     return (
         <View style={styles.container}>
-            <BannerAd ref={bannerRef} unitId={'ca-app-pub-3940256099942544/9214589741'} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />
+
             <ScrollView
                 refreshControl={
                     <RefreshControl
@@ -111,7 +138,17 @@ const GiftScreen = () => {
                     </View>
                 )}
             </ScrollView>
-            
+            <View style={styles.bannerContainer}>
+                <BannerAd
+                    unitId="ca-app-pub-9279048532768395/1808210265" // Test Ad Unit ID
+                    size={BannerAdSize.FULL_BANNER}
+                    requestOptions={{
+                        requestNonPersonalizedAdsOnly: true,
+                    }}
+                    onAdLoaded={() => console.log('Banner Ad Loaded')}
+                    onAdFailedToLoad={(error) => console.error('Banner Ad Failed to Load:', error)}
+                />
+            </View>
         </View>
     );
 };
@@ -150,12 +187,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         margin: 10,
-        marginTop:30
+        marginTop: 30
     },
     text: {
         color: '#ffffff',
         fontSize: 16,
         fontWeight: 'bold',
+    },
+    bannerContainer: {
+        marginTop: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });
 

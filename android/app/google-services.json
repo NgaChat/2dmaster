@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "535196283852",
+    "project_id": "d-master-73df1",
+    "storage_bucket": "d-master-73df1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:535196283852:android:0179607aa6b02f24b7e369",
+        "android_client_info": {
+          "package_name": "com.twodmaster.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDK5ZJ0fQIzXx7SqrKZgZnnS5LO4Y_L9Vc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

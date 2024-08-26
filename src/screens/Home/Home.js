@@ -4,8 +4,7 @@ import axios from 'axios';
 import { fSize } from '@services/Scale';
 import { scaleHeight } from '../../services/Scale';
 import io from 'socket.io-client';
-import SocketIOClient from "socket.io-client/dist/socket.io.js";
-
+import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads'
 // const SOCKET_URL = 'http://192.168.108.8:3001';
 const SOCKET_URL = 'http://app.hsattwinthtet.tech:3001';
 const { width } = Dimensions.get('window');
@@ -34,6 +33,8 @@ export default function Home({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
   const [blinkData, setBlinkData] = useState('');
   const [closeDay, setCloseDay] = useState(false)
+  const [adLoaded, setAdLoaded] = useState(true);
+  const adUnitId = 'ca-app-pub-9279048532768395/1808210265';
 
 
 
@@ -44,7 +45,7 @@ export default function Home({ navigation }) {
 
     socket.on('scrapedData', (data) => {
       setBlinkData(data);
-     
+
     });
 
     return () => {
@@ -59,20 +60,16 @@ export default function Home({ navigation }) {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://mm2d3dlive.com/api/v3/home', {
-        headers: {
-          'Authorization': ' Basic MkQzRDpOb3RoaW5nSXNTYWZl',
-        },
-      });
+      const response = await axios.get('https://app.hsattwinthtet.tech/data');
 
       setData(response.data);
-      
-      if(response.data['2d']){
+
+      if (response.data['2d']) {
         setLive(response.data['2d'].live);
-      }else{
+      } else {
         setCloseDay(true)
       }
-      
+
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -152,16 +149,18 @@ export default function Home({ navigation }) {
     <ScrollView style={styles.container} refreshControl={
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['blue', 'green', 'red']} />
     }>
+
+
       {!loading &&
         <View style={styles.largeText}>
-          {closeDay?
-            <Text style={[styles.mainText,{fontSize:fSize(80)}]}>CLOSE</Text>
-           :
-          <Text style={styles.mainText}>
-            {period === 'AM' ? live ? (isVisible ? blinkData.twod : '') : data["2d"]?.["am"]?.two_d :
-               live ? (isVisible ? blinkData.twod : '') : data["2d"]?.["pm"]?.two_d}
-            {/* {period === 'AM' ? (isVisible ? blinkData.twod : '') : (period === 'PM' ? (isVisible ? blinkData.twod : '') : '') } */}
-          </Text>
+          {closeDay ?
+            <Text style={[styles.mainText, { fontSize: fSize(80) }]}>CLOSE</Text>
+            :
+            <Text style={styles.mainText}>
+              {period === 'AM' ? live ? (isVisible ? blinkData.twod : '') : data["2d"]?.["am"]?.two_d :
+                live ? (isVisible ? blinkData.twod : '') : data["2d"]?.["pm"]?.two_d}
+              {/* {period === 'AM' ? (isVisible ? blinkData.twod : '') : (period === 'PM' ? (isVisible ? blinkData.twod : '') : '') } */}
+            </Text>
           }
           <Text style={styles.updatedText}>
             Updated <Text style={styles.checkmark}>{!live ? '✔' : ''}</Text> : {period === 'AM' ? data["2d"]?.["am"]?.updated_at : data["2d"]?.["pm"]?.updated_at}
@@ -169,22 +168,22 @@ export default function Home({ navigation }) {
         </View>
       }
 
-      <View style={styles.redBox}>
+      <View style={[styles.redBox,{marginTop:20}]}>
         <View style={styles.timeTextContainer}>
           <Text style={styles.timeText}>12:01 PM</Text>
         </View>
         <View style={styles.separator} />
         <View style={styles.infoContainer}>
           <View style={styles.infoBox}>
-            <Text style={styles.infoLabel}>SET</Text>
+            <Text style={styles.infoLabel}>Set</Text>
             <Text style={styles.infoValue}>
               {isVisible ? live ? blinkData?.set : data["2d"]?.am?.set : ''}
             </Text>
           </View>
           <View style={styles.infoBox}>
-            <Text style={styles.infoLabel}>VALUE</Text>
+            <Text style={styles.infoLabel}>Value</Text>
             <Text style={styles.infoValue}>
-              {isVisible ? live ? blinkData?.set : data["2d"]?.am?.val : ''}
+              {isVisible ? live ? blinkData?.value : data["2d"]?.am?.val : ''}
             </Text>
           </View>
           <View style={styles.infoBox}>
@@ -194,7 +193,7 @@ export default function Home({ navigation }) {
                 - -
               </Text>
               :
-              <Text style={[styles.infoValue,{color:'#8BC34A'}]}>
+              <Text style={[styles.infoValue, { color: '#8BC34A' }]}>
                 {period === 'AM' ? isVisible ? (live ? '- -' : data["2d"]?.am?.two_d) : '' : data["2d"]?.am?.two_d}
               </Text>
             }
@@ -210,18 +209,18 @@ export default function Home({ navigation }) {
         <View style={styles.separator} />
         <View style={styles.infoContainer}>
           <View style={styles.infoBox}>
-            <Text style={styles.infoLabel}>SET</Text>
+            <Text style={styles.infoLabel}>Set</Text>
             <Text style={styles.infoValue}>
-              {isVisible ? live ? blinkData?.set : data["2d"]?.pm?.set : ''}
+              {period === 'PM' && isVisible ? live ? blinkData?.set : data["2d"]?.pm?.set : ''}
 
               {/* {period === 'PM' ? isVisible ? data["2d"]?.pm?.set : '' : data["2d"]?.pm?.set} */}
             </Text>
           </View>
           <View style={styles.infoBox}>
-            <Text style={styles.infoLabel}>VALUE</Text>
+            <Text style={styles.infoLabel}>Value</Text>
             <Text style={styles.infoValue}>
               {/* {period === 'PM' ? isVisible ? data["2d"]?.pm?.val : '' : data["2d"]?.pm?.val} */}
-              {isVisible ? live ? blinkData?.value : data["2d"]?.pm?.val : ''}
+              {period === 'PM' && isVisible ? live ? blinkData?.value : data["2d"]?.pm?.val : ''}
             </Text>
           </View>
           <View style={styles.infoBox}>
@@ -231,7 +230,7 @@ export default function Home({ navigation }) {
                 - -
               </Text>
               :
-              <Text style={[styles.infoValue,{color:'#8BC34A'}]}>
+              <Text style={[styles.infoValue, { color: '#8BC34A' }]}>
                 {period === 'PM' ? isVisible ? (live ? '- -' : data["2d"]?.pm?.two_d) : '' : data["2d"]?.pm?.two_d}
               </Text>
             }
@@ -239,8 +238,20 @@ export default function Home({ navigation }) {
 
         </View>
       </View>
-
-      <View style={styles.periodContainer}>
+      {adLoaded &&
+        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }} >
+          <BannerAd
+            unitId={adUnitId} // Test Ad Unit ID
+            size={BannerAdSize.MEDIUM_RECTANGLE}
+            requestOptions={{
+              requestNonPersonalizedAdsOnly: true,
+            }}
+            onAdLoaded={() => {console.log('Loaded'); setAdLoaded(true)}}
+            onAdFailedToLoad={(error) =>{setAdLoaded(false); console.error('Banner Ad Failed to Load:', error)}}
+          />
+        </View>
+      }
+      <View style={[styles.periodContainer,{marginTop:20}]}>
         <View style={styles.periodBox}>
           <Text style={styles.periodText}>9:00 AM</Text>
         </View>
@@ -285,6 +296,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 15,
     backgroundColor: '#f5f6f7',
+    marginBottom: 20
   },
   largeText: {
     justifyContent: 'center',
@@ -294,35 +306,38 @@ const styles = StyleSheet.create({
     fontSize: fSize(140),
     fontWeight: '900',
     color: '#8BC34A',
+    fontFamily:'Manrope'
   },
   updatedText: {
     fontSize: fSize(12),
     color: 'black',
     fontStyle: 'italic',
     letterSpacing: 0.5,
+    fontFamily:'Manrope'
   },
   checkmark: {
     color: 'green',
   },
   redBox: {
     backgroundColor: '#F44336',
-    marginTop: 20,
+    marginTop: 5,
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 1,
-    height: scaleHeight(105),
+    height: scaleHeight(115),
   },
   timeTextContainer: {
     paddingVertical: 15,
   },
   timeText: {
     color: 'white',
-    fontSize: fSize(15),
+    fontSize: fSize(18),
     fontWeight: '900',
     textAlign: 'center',
+    fontFamily:'Manrope'
   },
   separator: {
     backgroundColor: 'white',
@@ -333,7 +348,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 15,
-    
+
   },
   infoBox: {
     alignItems: 'center',
@@ -341,21 +356,21 @@ const styles = StyleSheet.create({
   },
   infoLabel: {
     color: '#d5e6da',
-    fontSize: fSize(12),
+    fontSize: fSize(14),
     fontWeight: 'bold',
   },
   infoValue: {
     color: 'white',
     marginTop: 5,
     fontWeight: '900',
-    fontSize: fSize(17),
+    fontSize: fSize(19),
   },
   periodContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingVertical: 15,
     backgroundColor: '#F44336',
-    marginTop: 20,
+    marginTop: 5,
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -367,7 +382,7 @@ const styles = StyleSheet.create({
     width: width / 4,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical:5
+    paddingVertical: 15
   },
   periodText: {
     fontSize: fSize(19),
@@ -375,7 +390,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   periodLabel: {
-    fontSize: fSize(12),
+    fontSize: fSize(14),
     color: '#d5e6da',
     fontWeight: 'bold',
   },

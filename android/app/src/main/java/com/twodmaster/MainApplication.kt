@@ -1,4 +1,4 @@
-package com.twodmaster
+package com.twodmaster.app
 
 import android.app.Application
 import com.facebook.react.PackageList

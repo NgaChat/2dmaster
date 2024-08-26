@@ -14,6 +14,13 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-twodmaster-twodmasterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-twodmaster-twodmasterTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		390AD68AE2CD441980FC53A6 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C978DF63DBC44092BEB6BC38 /* BootSplash.storyboard */; };
+		884CC62E869544729A0023C8 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D339215F5004E198C5BF15D /* Colors.xcassets */; };
+		A9B5860B80BE4C2AB9EEABED /* NewAmsterdam.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE056C5C0C754891A1312AFB /* NewAmsterdam.ttf */; };
+		B1943DD1881C4DF5B5E990BC /* NotoSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C163BBBB7BBB451F9E212D2A /* NotoSans.ttf */; };
+		847469C34EE8449EA70DD895 /* Matemasie-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 142C23477A0F4B199345B26E /* Matemasie-Regular.ttf */; };
+		F914314209574C18833DCABE /* Manrope.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 65D4FA4F71D849B98F21ED06 /* Manrope.ttf */; };
+		A8596DB3487B4B3D966665C0 /* Typo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E416D3BEAB8249CAB8490344 /* Typo.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +43,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = twodmaster/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = twodmaster/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = twodmaster/main.m; sourceTree = "<group>"; };
-	    13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = twodmaster/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = twodmaster/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-twodmaster-twodmasterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-twodmaster-twodmasterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-twodmaster.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twodmaster.debug.xcconfig"; path = "Target Support Files/Pods-twodmaster/Pods-twodmaster.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-twodmaster.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twodmaster.release.xcconfig"; path = "Target Support Files/Pods-twodmaster/Pods-twodmaster.release.xcconfig"; sourceTree = "<group>"; };
@@ -45,6 +52,13 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = twodmaster/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-twodmaster-twodmasterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twodmaster-twodmasterTests.release.xcconfig"; path = "Target Support Files/Pods-twodmaster-twodmasterTests/Pods-twodmaster-twodmasterTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		C978DF63DBC44092BEB6BC38 /* BootSplash.storyboard */ = {isa = PBXFileReference; name = "BootSplash.storyboard"; path = "twodmaster/BootSplash.storyboard"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4D339215F5004E198C5BF15D /* Colors.xcassets */ = {isa = PBXFileReference; name = "Colors.xcassets"; path = "twodmaster/Colors.xcassets"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = folder.assetcatalog; explicitFileType = undefined; includeInIndex = 0; };
+		BE056C5C0C754891A1312AFB /* NewAmsterdam.ttf */ = {isa = PBXFileReference; name = "NewAmsterdam.ttf"; path = "../src/assets/fonts/NewAmsterdam.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C163BBBB7BBB451F9E212D2A /* NotoSans.ttf */ = {isa = PBXFileReference; name = "NotoSans.ttf"; path = "../src/assets/fonts/NotoSans.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		142C23477A0F4B199345B26E /* Matemasie-Regular.ttf */ = {isa = PBXFileReference; name = "Matemasie-Regular.ttf"; path = "../src/assets/fonts/Matemasie-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		65D4FA4F71D849B98F21ED06 /* Manrope.ttf */ = {isa = PBXFileReference; name = "Manrope.ttf"; path = "../src/assets/fonts/Manrope.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E416D3BEAB8249CAB8490344 /* Typo.ttf */ = {isa = PBXFileReference; name = "Typo.ttf"; path = "../src/assets/fonts/Typo.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +108,8 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				C978DF63DBC44092BEB6BC38 /* BootSplash.storyboard */,
+				4D339215F5004E198C5BF15D /* Colors.xcassets */,
 			);
 			name = twodmaster;
 			sourceTree = "<group>";
@@ -124,6 +140,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				B0DA53E45AF34E8DA9B90D1F /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -149,6 +166,19 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		B0DA53E45AF34E8DA9B90D1F /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				BE056C5C0C754891A1312AFB /* NewAmsterdam.ttf */,
+				C163BBBB7BBB451F9E212D2A /* NotoSans.ttf */,
+				142C23477A0F4B199345B26E /* Matemasie-Regular.ttf */,
+				65D4FA4F71D849B98F21ED06 /* Manrope.ttf */,
+				E416D3BEAB8249CAB8490344 /* Typo.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -245,6 +275,13 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				390AD68AE2CD441980FC53A6 /* BootSplash.storyboard in Resources */,
+				884CC62E869544729A0023C8 /* Colors.xcassets in Resources */,
+				A9B5860B80BE4C2AB9EEABED /* NewAmsterdam.ttf in Resources */,
+				B1943DD1881C4DF5B5E990BC /* NotoSans.ttf in Resources */,
+				847469C34EE8449EA70DD895 /* Matemasie-Regular.ttf in Resources */,
+				F914314209574C18833DCABE /* Manrope.ttf in Resources */,
+				A8596DB3487B4B3D966665C0 /* Typo.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

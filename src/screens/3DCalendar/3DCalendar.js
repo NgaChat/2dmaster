@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-nati
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { fSize, scaleHeight, scaleWidth } from '../../services/Scale';
 const { width } = Dimensions.get('window');
+import { loadInterAds, showInterAd } from '../../services/adService'
+import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads'
 
 const CalendarHeader = ({ navigation }) => {
     React.useLayoutEffect(() => {
@@ -22,18 +24,14 @@ const CalendarHeader = ({ navigation }) => {
     const [calendarData, setCalendarData] = useState(null);
 
     useEffect(() => {
+        loadInterAds()
         // Fetch calendar data when the year changes
         const fetchCalendarData = async () => {
             try {
-                const response = await fetch(`https://mm2d3dlive.com/api/v3/3d-calendar?date=${year}-01`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Basic MkQzRDpOb3RoaW5nSXNTYWZl',
-                    },
-                });
+                const response = await fetch(`https://app.hsattwinthtet.tech/3d-calendar?date=${year}-01`);
                 const data = await response.json();
                 setCalendarData(data);
-                console.log(data)
+                showInterAd()
             } catch (error) {
                 console.error('Error fetching calendar data:', error);
             }
@@ -76,12 +74,23 @@ const CalendarHeader = ({ navigation }) => {
                         return (
                             <View key={index} style={styles.month} >
                                 <Text style={{ color: 'white', textAlign: 'center', marginTop: 3 }} >{getMonthName(item.month)}</Text>
-                                <Text  style={{ color: '#8BC34A', textAlign: 'center', marginTop: 8,fontSize:fSize(15),fontWeight:'900' }} >{item['3d'][0]['three_d']}</Text>
-                                <Text  style={{ color: '#8BC34A', textAlign: 'center', marginTop: 3,fontSize:fSize(15),fontWeight:'900' }} >{item['3d'][1] ? item['3d'][1]['three_d'] : '❎'}</Text>
+                                <Text style={{ color: '#8BC34A', textAlign: 'center', marginTop: 8, fontSize: fSize(15), fontWeight: '900' }} >{item['3d'][0]['three_d']}</Text>
+                                <Text style={{ color: '#8BC34A', textAlign: 'center', marginTop: 3, fontSize: fSize(15), fontWeight: '900' }} >{item['3d'][1] ? item['3d'][1]['three_d'] : '❎'}</Text>
                             </View>
                         )
                     }
                 })}
+            </View>
+            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }} >
+                <BannerAd
+                    unitId="ca-app-pub-9279048532768395/1808210265" // Test Ad Unit ID
+                    size={BannerAdSize.FULL_BANNER}
+                    requestOptions={{
+                        requestNonPersonalizedAdsOnly: true,
+                    }}
+                    onAdLoaded={() => console.log('from 3d Banner Ad Loaded')}
+                    onAdFailedToLoad={(error) => console.error('Banner Ad Failed to Load:', error)}
+                />
             </View>
         </View>
     );
@@ -97,7 +106,7 @@ const styles = StyleSheet.create({
     year: {
         fontSize: 24,
         marginHorizontal: 20,
-        color:'black'
+        color: 'black'
     },
     month: {
         width: (width / 4) - 25,

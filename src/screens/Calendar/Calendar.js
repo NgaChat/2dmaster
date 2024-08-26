@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import axios from 'axios';
 import { fSize, scaleHeight, scaleWidth } from '../../services/Scale';
+import { loadInterAds, showInterAd } from '../../services/adService'
+import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads'
 
 const { width } = Dimensions.get('window');
 
@@ -31,6 +33,7 @@ const CalendarScreen = () => {
   }, [navigation]);
 
   useEffect(() => {
+    loadInterAds();
     const initialMonth = new Date().toISOString().slice(0, 7); // YYYY-MM format
     setCurrentMonth(initialMonth);
     fetchData(initialMonth);
@@ -39,11 +42,7 @@ const CalendarScreen = () => {
   const fetchData = async (month) => {
     setLoading(true);
     try {
-      const response = await axios.get(`https://mm2d3dlive.com/api/v3/2d-calendar?date=${month}`, {
-        headers: {
-          'Authorization': 'Basic MkQzRDpOb3RoaW5nSXNTYWZl',
-        },
-      });
+      const response = await axios.get(`https://app.hsattwinthtet.tech/2d-calendar?date=${month}`);
       setData(response.data);
       setLoading(false);
     } catch (error) {
@@ -86,6 +85,7 @@ const CalendarScreen = () => {
         onPress={() => {
           setSelectedDayData(dayData);
           setModalVisible(true);
+          showInterAd();
         }}
         style={[styles.dayContainer, { backgroundColor: '#F44336' }]}
       >
@@ -162,11 +162,12 @@ const CalendarScreen = () => {
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(false);
+
         }}
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
-            <Pressable style={styles.closeButton} onPress={() => setModalVisible(false)}>
+            <Pressable style={styles.closeButton} onPress={() => { setModalVisible(false); loadInterAds(); }}>
               <Text style={styles.closeButtonText}>Close</Text>
             </Pressable>
             <ScrollView>
@@ -179,15 +180,15 @@ const CalendarScreen = () => {
                       <View style={{ backgroundColor: '#F44336', height: 0.7, marginVertical: 10 }} />
                       <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 5 }} >
                         <View style={{ alignItems: 'center', width: width / 3 }} >
-                          <Text style={{ fontSize: fSize(12),color:'grey' }}>Set</Text>
+                          <Text style={{ fontSize: fSize(12), color: 'grey' }}>Set</Text>
                           <Text style={{ color: 'black', fontSize: fSize(14), fontWeight: '900' }}>{selectedDayData.am?.set || '--'}</Text>
                         </View>
                         <View style={{ alignItems: 'center', width: width / 3 }} >
-                          <Text style={{ fontSize: fSize(12),color:'grey' }}>Value</Text>
+                          <Text style={{ fontSize: fSize(12), color: 'grey' }}>Value</Text>
                           <Text style={{ color: 'black', fontSize: fSize(14), fontWeight: '900' }}>{selectedDayData.am?.val || '--'}</Text>
                         </View>
                         <View style={{ alignItems: 'center', width: width / 3 }} >
-                          <Text style={{ fontSize: fSize(12),color:'grey' }}>2D</Text>
+                          <Text style={{ fontSize: fSize(12), color: 'grey' }}>2D</Text>
                           <Text style={{ color: 'green', fontSize: fSize(14), fontWeight: '900' }}>{selectedDayData.am?.two_d || '--'}</Text>
                         </View>
                       </View>
@@ -202,49 +203,49 @@ const CalendarScreen = () => {
                     <View style={{ backgroundColor: '#F44336', height: 0.7, marginVertical: 10 }} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 5 }} >
                       <View style={{ alignItems: 'center', width: width / 3 }} >
-                        <Text style={{ fontSize: fSize(12),color:'grey' }}>Set</Text>
+                        <Text style={{ fontSize: fSize(12), color: 'grey' }}>Set</Text>
                         <Text style={{ color: 'black', fontSize: fSize(14), fontWeight: '900' }}>{selectedDayData.pm?.set || '--'}</Text>
                       </View>
                       <View style={{ alignItems: 'center', width: width / 3 }} >
-                        <Text style={{ fontSize: fSize(12),color:'grey' }}>Value</Text>
+                        <Text style={{ fontSize: fSize(12), color: 'grey' }}>Value</Text>
                         <Text style={{ color: 'black', fontSize: fSize(14), fontWeight: '900' }}>{selectedDayData.pm?.val || '--'}</Text>
                       </View>
                       <View style={{ alignItems: 'center', width: width / 3 }} >
-                        <Text style={{ fontSize: fSize(12),color:'grey' }}>2D</Text>
+                        <Text style={{ fontSize: fSize(12), color: 'grey' }}>2D</Text>
                         <Text style={{ color: 'green', fontSize: fSize(14), fontWeight: '900' }}>{selectedDayData.pm?.two_d || '--'}</Text>
                       </View>
                     </View>
 
                   </View>
 
-                  <View style={{ backgroundColor: 'white', paddingVertical: 10, borderRadius: 15, marginTop: 10,flexDirection:'row',alignItems:'center',justifyContent:'space-around' }} >
+                  <View style={{ backgroundColor: 'white', paddingVertical: 10, borderRadius: 15, marginTop: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }} >
                     <Text style={{ color: 'black', fontWeight: 'bold' }} >9:00 AM</Text>
-                    <View style={{alignItems:'center'}} >
+                    <View style={{ alignItems: 'center' }} >
                       <Text>Modern</Text>
-                      <Text style={{color:'black',fontWeight:'bold',fontSize:fSize(14)}} >{selectedDayData.am?.modern || '--'}</Text>
+                      <Text style={{ color: 'black', fontWeight: 'bold', fontSize: fSize(14) }} >{selectedDayData.am?.modern || '--'}</Text>
                     </View>
-                    <View style={{alignItems:'center'}} >
+                    <View style={{ alignItems: 'center' }} >
                       <Text>Internet</Text>
-                      <Text style={{color:'black',fontWeight:'bold',fontSize:fSize(14)}} >{selectedDayData.am?.internet || '--'}</Text>
+                      <Text style={{ color: 'black', fontWeight: 'bold', fontSize: fSize(14) }} >{selectedDayData.am?.internet || '--'}</Text>
                     </View>
-                    <View style={{alignItems:'center'}} >
+                    <View style={{ alignItems: 'center' }} >
                       <Text>TW</Text>
-                      <Text style={{color:'black',fontWeight:'bold',fontSize:fSize(14)}} >{selectedDayData.am?.tw || '--'}</Text>
+                      <Text style={{ color: 'black', fontWeight: 'bold', fontSize: fSize(14) }} >{selectedDayData.am?.tw || '--'}</Text>
                     </View>
                   </View>
-                  <View style={{ backgroundColor: 'white', paddingVertical: 10, borderRadius: 15, marginTop: 10,flexDirection:'row',alignItems:'center',justifyContent:'space-around' }} >
+                  <View style={{ backgroundColor: 'white', paddingVertical: 10, borderRadius: 15, marginTop: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }} >
                     <Text style={{ color: 'black', fontWeight: 'bold' }} >2:00 AM</Text>
-                    <View style={{alignItems:'center'}} >
+                    <View style={{ alignItems: 'center' }} >
                       <Text>Modern</Text>
-                      <Text style={{color:'black',fontWeight:'bold',fontSize:fSize(14)}} >{selectedDayData.pm?.modern || '--'}</Text>
+                      <Text style={{ color: 'black', fontWeight: 'bold', fontSize: fSize(14) }} >{selectedDayData.pm?.modern || '--'}</Text>
                     </View>
-                    <View style={{alignItems:'center'}} >
+                    <View style={{ alignItems: 'center' }} >
                       <Text>Internet</Text>
-                      <Text style={{color:'black',fontWeight:'bold',fontSize:fSize(14)}} >{selectedDayData.pm?.internet || '--'}</Text>
+                      <Text style={{ color: 'black', fontWeight: 'bold', fontSize: fSize(14) }} >{selectedDayData.pm?.internet || '--'}</Text>
                     </View>
-                    <View style={{alignItems:'center'}} >
+                    <View style={{ alignItems: 'center' }} >
                       <Text>TW</Text>
-                      <Text style={{color:'black',fontWeight:'bold',fontSize:fSize(14)}} >{selectedDayData.pm?.tw || '--'}</Text>
+                      <Text style={{ color: 'black', fontWeight: 'bold', fontSize: fSize(14) }} >{selectedDayData.pm?.tw || '--'}</Text>
                     </View>
                   </View>
                 </View>
@@ -255,6 +256,18 @@ const CalendarScreen = () => {
           </View>
         </View>
       </Modal>
+
+      <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }} >
+        <BannerAd
+          unitId="ca-app-pub-9279048532768395/1808210265" // Test Ad Unit ID
+          size={BannerAdSize.FULL_BANNER}
+          requestOptions={{
+            requestNonPersonalizedAdsOnly: true,
+          }}
+          onAdLoaded={() => console.log('Banner Ad Loaded')}
+          onAdFailedToLoad={(error) => console.error('Banner Ad Failed to Load:', error)}
+        />
+      </View>
     </View>
   );
 };
