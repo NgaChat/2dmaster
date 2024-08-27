@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { fSize } from '@services/Scale';
 import { scaleHeight } from '../../services/Scale';
 import io from 'socket.io-client';
 import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads'
+import Icon from '../../components/Icon';
 // const SOCKET_URL = 'http://192.168.108.8:3001';
 const SOCKET_URL = 'http://app.hsattwinthtet.tech:3001';
 const { width } = Dimensions.get('window');
@@ -21,6 +22,11 @@ export default function Home({ navigation }) {
       headerTitleStyle: {
         fontWeight: '900',
       },
+      headerRight: () => (
+        <TouchableOpacity style={{marginRight:10}} onPress={() => navigation.navigate('Privacy')} >
+          <Icon name="more-vertical" size={25} color="#900" type="Feather" />
+        </TouchableOpacity>
+      ),
     });
   }, [navigation]);
 
@@ -33,7 +39,7 @@ export default function Home({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
   const [blinkData, setBlinkData] = useState('');
   const [closeDay, setCloseDay] = useState(false)
-  const [adLoaded, setAdLoaded] = useState(true);
+  const [adLoaded, setAdLoaded] = useState(false);
   const adUnitId = 'ca-app-pub-9279048532768395/1808210265';
 
 
@@ -168,7 +174,7 @@ export default function Home({ navigation }) {
         </View>
       }
 
-      <View style={[styles.redBox,{marginTop:20}]}>
+      <View style={[styles.redBox, { marginTop: 20 }]}>
         <View style={styles.timeTextContainer}>
           <Text style={styles.timeText}>12:01 PM</Text>
         </View>
@@ -177,13 +183,13 @@ export default function Home({ navigation }) {
           <View style={styles.infoBox}>
             <Text style={styles.infoLabel}>Set</Text>
             <Text style={styles.infoValue}>
-              {isVisible ? live ? blinkData?.set : data["2d"]?.am?.set : ''}
+              {period === 'AM' ? isVisible ? live ? blinkData?.set : data["2d"]?.am?.set : '' : data["2d"]?.am?.set}
             </Text>
           </View>
           <View style={styles.infoBox}>
             <Text style={styles.infoLabel}>Value</Text>
             <Text style={styles.infoValue}>
-              {isVisible ? live ? blinkData?.value : data["2d"]?.am?.val : ''}
+              {period === 'AM' ? isVisible ? live ? blinkData?.value : data["2d"]?.am?.val : '' : data["2d"]?.am?.val}
             </Text>
           </View>
           <View style={styles.infoBox}>
@@ -238,20 +244,20 @@ export default function Home({ navigation }) {
 
         </View>
       </View>
-      {adLoaded &&
-        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }} >
-          <BannerAd
-            unitId={adUnitId} // Test Ad Unit ID
-            size={BannerAdSize.MEDIUM_RECTANGLE}
-            requestOptions={{
-              requestNonPersonalizedAdsOnly: true,
-            }}
-            onAdLoaded={() => {console.log('Loaded'); setAdLoaded(true)}}
-            onAdFailedToLoad={(error) =>{setAdLoaded(false); console.error('Banner Ad Failed to Load:', error)}}
-          />
-        </View>
-      }
-      <View style={[styles.periodContainer,{marginTop:20}]}>
+
+      <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }} >
+        <BannerAd
+          unitId={adUnitId} // Test Ad Unit ID
+          size={adLoaded ? BannerAdSize.MEDIUM_RECTANGLE : BannerAdSize.BANNER}
+          requestOptions={{
+            requestNonPersonalizedAdsOnly: true,
+          }}
+          onAdLoaded={() => { console.log('Loaded'); setAdLoaded(true) }}
+          onAdFailedToLoad={(error) => { setAdLoaded(false); console.error('Banner Ad Failed to Load:', BannerAdSize, error) }}
+        />
+      </View>
+
+      <View style={[styles.periodContainer, { marginTop: 20 }]}>
         <View style={styles.periodBox}>
           <Text style={styles.periodText}>9:00 AM</Text>
         </View>
@@ -306,14 +312,14 @@ const styles = StyleSheet.create({
     fontSize: fSize(140),
     fontWeight: '900',
     color: '#8BC34A',
-    fontFamily:'Manrope'
+    fontFamily: 'Manrope'
   },
   updatedText: {
     fontSize: fSize(12),
     color: 'black',
     fontStyle: 'italic',
     letterSpacing: 0.5,
-    fontFamily:'Manrope'
+    fontFamily: 'Manrope'
   },
   checkmark: {
     color: 'green',
@@ -337,7 +343,7 @@ const styles = StyleSheet.create({
     fontSize: fSize(18),
     fontWeight: '900',
     textAlign: 'center',
-    fontFamily:'Manrope'
+    fontFamily: 'Manrope'
   },
   separator: {
     backgroundColor: 'white',

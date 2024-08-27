@@ -18,7 +18,7 @@ const Tab = createBottomTabNavigator();
 const MainTabNavigator = () => {
   const getTab = (r) => {
     const rr = getFocusedRouteNameFromRoute(r)
-    if (rr == 'SelectPayment') return 'none'
+    if (rr == '') return 'none'
     return 'flex';
   }
   return (

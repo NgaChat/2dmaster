@@ -5,7 +5,7 @@ import { Calendar, LocaleConfig } from 'react-native-calendars';
 import axios from 'axios';
 import { fSize, scaleHeight, scaleWidth } from '../../services/Scale';
 import { loadInterAds, showInterAd } from '../../services/adService'
-import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads'
+import { BannerAd, BannerAdSize, useInterstitialAd } from 'react-native-google-mobile-ads'
 
 const { width } = Dimensions.get('window');
 
@@ -17,10 +17,14 @@ const CalendarScreen = () => {
   const [isLoading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDayData, setSelectedDayData] = useState(null);
+  const { isLoaded, isClosed, load, show } = useInterstitialAd('ca-app-pub-9279048532768395/1973165135');
+
+
+
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: 'Calendar',
+      headerTitle: '2D Calendar',
       headerTitleAlign: 'center',
       headerStyle: {
         backgroundColor: '#F44336',
@@ -33,11 +37,22 @@ const CalendarScreen = () => {
   }, [navigation]);
 
   useEffect(() => {
-    loadInterAds();
+
     const initialMonth = new Date().toISOString().slice(0, 7); // YYYY-MM format
     setCurrentMonth(initialMonth);
     fetchData(initialMonth);
   }, []);
+  useEffect(() => {
+    // Start loading the interstitial straight away
+    load();
+  }, [load]);
+
+  useEffect(() => {
+    if (isClosed) {
+      // Action after the ad is closed
+      setModalVisible(true);
+    }
+  }, [isClosed, navigation]);
 
   const fetchData = async (month) => {
     setLoading(true);
@@ -71,23 +86,23 @@ const CalendarScreen = () => {
     return dayData ? dayData["2d"] : null;
   };
 
-  const isWeekend = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDay();
-    return day === 0 || day === 6; // Sunday (0) or Saturday (6)
-  };
+
+  function getWeekendDays(data) {
+    return data?.filter(item => {
+      const date = new Date(item.date);
+      const day = date.getDay(); // 0 is Sunday, 6 is Saturday
+      return day === 0 || day === 6;
+    });
+  }
 
   const DayComponent = ({ date }) => {
     const dayData = getDayData(date.dateString);
-
+    const isWeekend = new Date(date.dateString).getDay() === 0 || new Date(date.dateString).getDay() === 6;
+    // console.log(isWeekend)
     return (
       <TouchableOpacity
-        onPress={() => {
-          setSelectedDayData(dayData);
-          setModalVisible(true);
-          showInterAd();
-        }}
-        style={[styles.dayContainer, { backgroundColor: '#F44336' }]}
+        onPress={() => {setSelectedDayData(dayData);if (isLoaded) {show();} else {setModalVisible(true);}}}
+        style={[styles.dayContainer, { backgroundColor: '#1a3261' }]}
       >
         <Text style={styles.dayText}>{date.day}</Text>
         {isLoading ?
@@ -132,6 +147,7 @@ const CalendarScreen = () => {
           onDayPress={day => {
             console.log('selected day', day);
           }}
+         
           theme={{
             calendarBackground: '#ffffff',
             textSectionTitleColor: '#b6c1cd',
@@ -151,7 +167,7 @@ const CalendarScreen = () => {
             textDayHeaderFontWeight: '300',
             textDayFontSize: 16,
             textMonthFontSize: 16,
-            textDayHeaderFontSize: 16,
+            textDayHeaderFontSize: 12,
           }}
         />
       )}
@@ -167,7 +183,7 @@ const CalendarScreen = () => {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
-            <Pressable style={styles.closeButton} onPress={() => { setModalVisible(false); loadInterAds(); }}>
+            <Pressable style={styles.closeButton} onPress={() => { setModalVisible(false); load(); }}>
               <Text style={styles.closeButtonText}>Close</Text>
             </Pressable>
             <ScrollView>
@@ -282,6 +298,7 @@ const styles = StyleSheet.create({
     width: scaleWidth(50),
     height: scaleHeight(50),
     borderRadius: 10,
+    
   },
   dayText: {
     fontSize: fSize(10),

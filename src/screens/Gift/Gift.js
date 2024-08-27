@@ -6,7 +6,7 @@ import { fSize, scaleHeight } from '../../services/Scale';
 import { Celo, Gift } from 'iconsax-react-native';
 // import { BannerAd, BannerAdSize, TestIds, InterstitialAd, AdEventType, RewardedAd, RewardedAdEventType } from 'react-native-google-mobile-ads';
 import { loadRewardedAd, showRewardedAd } from '../../services/adService'
-import { BannerAd, BannerAdSize, useRewardedAd, TestIds } from 'react-native-google-mobile-ads'; // Import directly
+import { BannerAd, BannerAdSize, useRewardedAd } from 'react-native-google-mobile-ads'; // Import directly
 
 const { width } = Dimensions.get('window');
 
